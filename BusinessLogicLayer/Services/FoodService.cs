@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer.AutoMapper.Interfaces;
 using BusinessLogicLayer.Dtos.FoodDtos;
+using BusinessLogicLayer.Exeptions;
 using BusinessLogicLayer.Validators;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
@@ -31,7 +32,12 @@ public class FoodService : IFoodService
             {
                 var food = _mapper.Map<Food>(addFood);
                 food.FoodCategory = null;
-                await _unitOfWork.Foods.AddFoodCategoryAsync;
+                await _unitOfWork.Food.AddFoodCategoryAsync(food);
+                _unitOfWork.Commit();
+            }
+            else
+            {
+                throw new FoodExeption("FoodCategory Not Found !");
             }
         }
     }
