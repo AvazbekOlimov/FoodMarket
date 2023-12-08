@@ -9,7 +9,7 @@ namespace DataAccessLayer.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IFoodInterface Foods { get; }
+        IFoodInterface Food { get; }
         IFoodCategoryInterface FoodCategories { get; }
         void Commit();
     }

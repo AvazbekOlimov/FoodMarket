@@ -21,7 +21,7 @@ public class UnitOfWork : IUnitOfWork
         _foodCategory = foodCategory;
         _food = food;
     }
-    public IFoodInterface Foods => _food;
+    public IFoodInterface Food => _food;
 
     public IFoodCategoryInterface FoodCategories => _foodCategory;
 

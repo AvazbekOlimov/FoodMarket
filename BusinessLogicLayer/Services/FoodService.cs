@@ -1,5 +1,9 @@
-﻿using BusinessLogicLayer.AutoMapper.Interfaces;
+﻿using AutoMapper;
+using BusinessLogicLayer.AutoMapper.Interfaces;
 using BusinessLogicLayer.Dtos.FoodDtos;
+using BusinessLogicLayer.Validators;
+using DataAccessLayer.Entities;
+using DataAccessLayer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +14,26 @@ namespace BusinessLogicLayer.AutoMapper.Services;
 
 public class FoodService : IFoodService
 {
-    public FoodService()
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+
+    public FoodService(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
-    public Task AddFoodAsync(AddFoodDto addFood)
+    public async Task AddFoodAsync(AddFoodDto addFood)
     {
-        throw new NotImplementedException();
+        if (addFood.IsValid())
+        {
+            var list = await _unitOfWork.FoodCategories.GetAllAsync();
+            if(list.Any(i => i.Id == addFood.FoodCategoryId))
+            {
+                var food = _mapper.Map<Food>(addFood);
+                food.FoodCategory = null;
+                await _unitOfWork.Foods.AddFoodCategoryAsync;
+            }
+        }
     }
 
     public Task DeleteFoodAsync(int id)
